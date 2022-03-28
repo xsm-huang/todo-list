@@ -3,17 +3,17 @@
         <div class="todo-container">
             <div class="todo-wrap">
                 <MyHeader :addTodos="addTodos" />
-                <MyList :todos="todos" :checkTodo="checkTodo" />
-                <MyFooter />
+                <MyList :todos="todos" :checkTodo="checkTodo" :deleteTodo="deleteTodo" />
+                <MyFooter :todos="todos" :checkAllTodo="checkAllTodo" :clearAllTodo="clearAllTodo" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import MyHeader from './components/MyHeader.vue';
-import MyList from './components/MyList.vue';
-import MyFooter from './components/MyFooter.vue';
+import MyHeader from '../src/components/MyHeader.vue';
+import MyList from '../src/components/MyList.vue';
+import MyFooter from '../src/components/MyFooter.vue';
 
 export default {
     name: 'App',
@@ -31,6 +31,30 @@ export default {
         // 添加一个 todo
         addTodos(todoObj) {
             this.todos.unshift(todoObj);
+        },
+
+        // 勾选或取消勾选一个 todo
+        checkTodo(id) {
+            this.todos.forEach((todo) => {
+                if (todo.id === id) todo.done = !todo.done;
+            });
+        },
+
+        // 删除一个 todo
+        deleteTodo(id) {
+            this.todos = this.todos.filter((todo) => todo.id !== id);
+        },
+        // 全选或取消全选
+        checkAllTodo(flag) {
+            this.todos.forEach((tode) => {
+                tode.done = flag;
+            });
+        },
+        // 清除所有已完成
+        clearAllTodo() {
+            this.todos = this.todos.filter((todo) => {
+                return !todo.done;
+            });
         },
     },
 };

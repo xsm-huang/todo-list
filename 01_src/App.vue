@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import MyHeader from './components/MyHeader.vue';
-import MyList from './components/MyList.vue';
-import MyFooter from './components/MyFooter.vue';
+import MyHeader from '../01_src/components/MyHeader.vue';
+import MyList from '../01_src/components/MyList.vue';
+import MyFooter from '../01_src/components/MyFooter.vue';
 
 export default {
     name: 'App',
