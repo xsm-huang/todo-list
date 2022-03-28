@@ -20,11 +20,8 @@ export default {
     components: { MyHeader, MyList, MyFooter },
     data() {
         return {
-            todos: [
-                { id: '001', title: '抽烟', done: true },
-                { id: '002', title: '喝酒', done: false },
-                { id: '003', title: '打架', done: true },
-            ],
+            // 防止本地缓存中没有数据返回 null
+            todos: JSON.parse(localStorage.getItem('todos')) || [],
         };
     },
     methods: {
@@ -55,6 +52,15 @@ export default {
             this.todos = this.todos.filter((todo) => {
                 return !todo.done;
             });
+        },
+    },
+
+    watch: {
+        todos: {
+            deep: true,
+            handler(value) {
+                localStorage.setItem('todos', JSON.stringify(value));
+            },
         },
     },
 };
