@@ -3,28 +3,25 @@
         <div class="todo-container">
             <div class="todo-wrap">
                 <MyHeader :addTodos="addTodos" />
-                <MyList :todos="todos" :checkTodo="checkTodo" />
-                <MyFooter />
+                <MyList :todos="todos" :checkTodo="checkTodo" :deleteTodo="deleteTodo" />
+                <MyFooter :todos="todos" :checkAllTodo="checkAllTodo" :clearAllTodo="clearAllTodo" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import MyHeader from '../01_src/components/MyHeader.vue';
-import MyList from '../01_src/components/MyList.vue';
-import MyFooter from '../01_src/components/MyFooter.vue';
+import MyHeader from '../src/components/MyHeader.vue';
+import MyList from '../src/components/MyList.vue';
+import MyFooter from '../src/components/MyFooter.vue';
 
 export default {
     name: 'App',
     components: { MyHeader, MyList, MyFooter },
     data() {
         return {
-            todos: [
-                { id: '001', title: '抽烟', done: true },
-                { id: '002', title: '喝酒', done: false },
-                { id: '003', title: '打架', done: true },
-            ],
+            // 防止本地缓存中没有数据返回 null
+            todos: JSON.parse(localStorage.getItem('todos')) || [],
         };
     },
     methods: {
@@ -38,6 +35,32 @@ export default {
             this.todos.forEach((todo) => {
                 if (todo.id === id) todo.done = !todo.done;
             });
+        },
+
+        // 删除一个 todo
+        deleteTodo(id) {
+            this.todos = this.todos.filter((todo) => todo.id !== id);
+        },
+        // 全选或取消全选
+        checkAllTodo(flag) {
+            this.todos.forEach((tode) => {
+                tode.done = flag;
+            });
+        },
+        // 清除所有已完成
+        clearAllTodo() {
+            this.todos = this.todos.filter((todo) => {
+                return !todo.done;
+            });
+        },
+    },
+
+    watch: {
+        todos: {
+            deep: true,
+            handler(value) {
+                localStorage.setItem('todos', JSON.stringify(value));
+            },
         },
     },
 };

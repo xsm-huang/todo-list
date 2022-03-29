@@ -1,6 +1,6 @@
 <template>
     <ul class="todo-main">
-        <list-item v-for="todoObj in todos" :key="todoObj.id" :todo="todoObj" :checkTodo="checkTodo" />
+        <list-item v-for="todoObj in todos" :key="todoObj.id" :todo="todoObj" :checkTodo="checkTodo" :deleteTodo="deleteTodo" />
     </ul>
 </template>
 
@@ -10,7 +10,7 @@ import ListItem from './ListItem.vue';
 export default {
     name: 'MyList',
     components: { ListItem },
-    props: ['todos', 'checkTodo'],
+    props: ['todos', 'checkTodo', 'deleteTodo'],
 };
 </script>
 
